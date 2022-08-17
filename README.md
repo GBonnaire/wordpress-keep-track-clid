@@ -13,7 +13,7 @@ Wordpress plugin to keep GCLID value in all navigation on your wordpress website
 ### With Shell Command on your server
 Please note that this will download the latest development version of this plugin. While this version is usually stable, it is not recommended for use in a production environment.
 
-Within your WordPress installation, navigate to wp-content/plugins and run the following commands:
+Within your WordPress installation, navigate to `wp-content/plugins` and run the following commands:
 
 ```bash
 git clone https://github.com/GBonnaire/wordpress-keep-track-gclid.git
