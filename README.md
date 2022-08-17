@@ -20,4 +20,4 @@ git clone https://github.com/GBonnaire/wordpress-keep-track-gclid.git
 ```
 
 ## Reporting bugs
-If you find an issue, [let us know here](https://github.com/GBonnaire/wordpress-keep-track-gclid/issue)! And we fix quickly to get a better plugin 
+If you find an issue, [let us know here](https://github.com/GBonnaire/wordpress-keep-track-gclid/issues)! And we fix quickly to get a better plugin 
