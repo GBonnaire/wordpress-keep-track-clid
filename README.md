@@ -1,10 +1,10 @@
-# Plugin Wordpress to keep track GCLID
-Wordpress plugin to keep GCLID value in all navigation on your wordpress website
+# Plugin Wordpress to keep track CLID
+Wordpress plugin to keep CLID like GCLID et FBCLID value in all navigation on your wordpress website
 
 ## Installation
 ### With ZIP on Wordpress Admin Console
 
-* Open this [page of last release](https://github.com/GBonnaire/wordpress-keep-track-gclid/releases/latest)
+* Open this [page of last release](https://github.com/GBonnaire/wordpress-keep-track-clid/releases/latest)
 * Download ZIP version
 * Open your Wordpress administration console and go to Extension manager
 * Upload ZIP version and activate plugin
@@ -16,7 +16,7 @@ Please note that this will download the latest development version of this plugi
 Within your WordPress installation, navigate to `wp-content/plugins` and run the following commands:
 
 ```bash
-git clone https://github.com/GBonnaire/wordpress-keep-track-gclid.git
+git clone https://github.com/GBonnaire/wordpress-keep-track-clid.git
 ```
 
 ## Reporting bugs
