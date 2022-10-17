@@ -8,9 +8,9 @@
  *
  * @wordpress-plugin
  * Plugin Name: Keep Track GCLID and FBCLID
- * Version:     1.1.0
+ * Version:     1.1.1
  * Plugin URI:  https://github.com/GBonnaire/wordpress-keep-track-clid
- * Description: Keep track GCLID and FBCLID of google tag manager while navigation on your wordpress website
+ * Description: Keep track GCLID and FBCLID while navigation on your wordpress website
  * Author:      Guillaume Bonnaire
  * Author URI:  https://www.gbonnaire.fr
  * Text Domain: wordpress-keep-track-clid
@@ -35,6 +35,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
+
 if ( ! function_exists( 'add_filter' ) ) {
     header( 'Status: 403 Forbidden' );
     header( 'HTTP/1.1 403 Forbidden' );
@@ -55,12 +59,23 @@ foreach ($filters as $filter) {
 /**
  * Filter WP executed on each interne request
  */
-function wp_plugin_ktclid_requests_query_args($permalink, $post, $leavename)
+function wp_plugin_ktclid_requests_query_args($permalink)
 {    
     if (is_admin()) {
         // Only update link front
-        return ;
+        return $permalink;
     }
+
+    if (defined("ELEMENTOR_PLUGIN_BASE") && is_plugin_active( ELEMENTOR_PLUGIN_BASE )) {
+        if(\Elementor\Plugin::$instance->editor->is_edit_mode()) {
+            return $permalink;
+        }
+        if( isset( $_GET['elementor-preview'] ) ) {
+            return $permalink;
+        }
+    }
+
+
 
     $params = $_GET;
     if($params == NULL) {
@@ -98,6 +113,15 @@ function wp_plugin_ktclid_init()
         // Only update link front
         return ;
     }
+
+    if (defined("ELEMENTOR_PLUGIN_BASE") && is_plugin_active( ELEMENTOR_PLUGIN_BASE )) {
+        if(\Elementor\Plugin::$instance->editor->is_edit_mode()) {
+            return ;
+        }
+        if( isset( $_GET['elementor-preview'] ) ) {
+            return ;
+        }
+    }
 	
     if($_POST == NULL) {
         $params = $_GET;
@@ -112,7 +136,7 @@ function wp_plugin_ktclid_init()
             wp_plugin_ktclid_session_register("fbclid", $params['fbclid']);
         }
 
-        if($params['gclid'] == NULL && $params['fbclid'] == NULL) {
+        if(!array_key_exists("gclid", $params) && array_key_exists("fbclid", $params)) {
             $permalink = get_permalink();
             $params['gclid'] = wp_plugin_ktclid_session_get("gclid");
             $params['fbclid'] = wp_plugin_ktclid_session_get("fbclid");
@@ -120,7 +144,7 @@ function wp_plugin_ktclid_init()
             if(($params['gclid'] != NULL || $params['fbclid'] != NULL) && wp_redirect(add_query_arg($params, $permalink))) {
                 exit;
             }
-        }   
+        }
     }
 }
 
