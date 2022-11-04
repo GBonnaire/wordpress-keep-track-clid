@@ -7,8 +7,8 @@
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
- * Plugin Name: Keep Track GCLID and FBCLID
- * Version:     1.1.1
+ * Plugin Name: Keep Track ClickID
+ * Version:     1.1.2
  * Plugin URI:  https://github.com/GBonnaire/wordpress-keep-track-clid
  * Description: Keep track GCLID and FBCLID while navigation on your wordpress website
  * Author:      Guillaume Bonnaire
@@ -34,6 +34,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+
+
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
@@ -99,7 +102,6 @@ function wp_plugin_ktclid_requests_query_args($permalink)
             unset($params['fbclid']);
         }
     }
-    
 
     return (add_query_arg($params, $permalink)) ;
 }
@@ -136,7 +138,7 @@ function wp_plugin_ktclid_init()
             wp_plugin_ktclid_session_register("fbclid", $params['fbclid']);
         }
 
-        if(!array_key_exists("gclid", $params) && array_key_exists("fbclid", $params)) {
+        if(!array_key_exists("gclid", $params) && !array_key_exists("fbclid", $params)) {
             $permalink = get_permalink();
             $params['gclid'] = wp_plugin_ktclid_session_get("gclid");
             $params['fbclid'] = wp_plugin_ktclid_session_get("fbclid");
