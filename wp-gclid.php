@@ -8,9 +8,9 @@
  *
  * @wordpress-plugin
  * Plugin Name: Keep Track ClickID
- * Version:     1.1.2
+ * Version:     1.3.0
  * Plugin URI:  https://github.com/GBonnaire/wordpress-keep-track-clid
- * Description: Keep track GCLID and FBCLID while navigation on your wordpress website
+ * Description: Keep track GCLID, FBCLID, TBCLID, MSCLKID while navigation on your wordpress website
  * Author:      Guillaume Bonnaire
  * Author URI:  https://www.gbonnaire.fr
  * Text Domain: wordpress-keep-track-clid
@@ -103,6 +103,24 @@ function wp_plugin_ktclid_requests_query_args($permalink)
         }
     }
 
+    if(array_key_exists("tbclid", $params) && $params['tbclid']!=NULL) {
+        wp_plugin_ktclid_session_register("tbclid", $params['tbclid']);
+    } else {
+        $params['tbclid'] = wp_plugin_ktclid_session_get("tbclid");
+        if($params['tbclid'] == NULL) {
+            unset($params['tbclid']);
+        }
+    }
+
+    if(array_key_exists("msclkid", $params) && $params['msclkid']!=NULL) {
+        wp_plugin_ktclid_session_register("msclkid", $params['msclkid']);
+    } else {
+        $params['msclkid'] = wp_plugin_ktclid_session_get("msclkid");
+        if($params['msclkid'] == NULL) {
+            unset($params['msclkid']);
+        }
+    }
+
     return (add_query_arg($params, $permalink)) ;
 }
 
@@ -138,12 +156,22 @@ function wp_plugin_ktclid_init()
             wp_plugin_ktclid_session_register("fbclid", $params['fbclid']);
         }
 
-        if(!array_key_exists("gclid", $params) && !array_key_exists("fbclid", $params)) {
+        if(array_key_exists("tbclid", $params) && $params['tbclid']!=NULL) {
+            wp_plugin_ktclid_session_register("tbclid", $params['tbclid']);
+        }
+
+        if(array_key_exists("msclkid", $params) && $params['msclkid']!=NULL) {
+            wp_plugin_ktclid_session_register("msclkid", $params['msclkid']);
+        }
+
+        if(!array_key_exists("gclid", $params) && !array_key_exists("fbclid", $params) && !array_key_exists("tbclid", $params) && !array_key_exists("msclkid", $params)) {
             $permalink = get_permalink();
             $params['gclid'] = wp_plugin_ktclid_session_get("gclid");
             $params['fbclid'] = wp_plugin_ktclid_session_get("fbclid");
+            $params['tbclid'] = wp_plugin_ktclid_session_get("tbclid");
+            $params['msclkid'] = wp_plugin_ktclid_session_get("msclkid");
 
-            if(($params['gclid'] != NULL || $params['fbclid'] != NULL) && wp_redirect(add_query_arg($params, $permalink))) {
+            if(($params['gclid'] != NULL || $params['fbclid'] != NULL || $params['tbclid'] != NULL || $params['msclkid'] != NULL) && wp_redirect(add_query_arg($params, $permalink))) {
                 exit;
             }
         }
