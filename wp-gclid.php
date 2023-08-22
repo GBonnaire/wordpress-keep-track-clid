@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Keep Track ClickID
- * Version:     1.3.0
+ * Version:     1.3.1
  * Plugin URI:  https://github.com/GBonnaire/wordpress-keep-track-clid
  * Description: Keep track GCLID, FBCLID, TBCLID, MSCLKID while navigation on your wordpress website
  * Author:      Guillaume Bonnaire
@@ -16,7 +16,7 @@
  * Text Domain: wordpress-keep-track-clid
  * License:     GPL v3
  * Requires at least: 5.9
- * Requires PHP: 5.6.20
+ * Requires PHP: 7.4
  *
  * WC requires at least: 3.0
  * WC tested up to: 6.1
@@ -41,6 +41,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
+
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 if ( ! function_exists( 'add_filter' ) ) {
     header( 'Status: 403 Forbidden' );
